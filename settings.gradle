@@ -1,0 +1,6 @@
+rootProject.name = 'study'
+include 'lib-foot'
+include 'lib-click'
+include 'same-click'
+include 'same-sever'
+
