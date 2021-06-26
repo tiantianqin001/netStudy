@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="760705ed-bf15-4e4c-920c-d13769e7d317" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/same-click/src/main/java/TCPClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -33,11 +33,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/same-click/src/main/java/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+            <state relative-caret-position="152">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/same-click/src/main/java/TCPClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -86,8 +95,9 @@
         <option value="$PROJECT_DIR$/lib-foot/src/main/java/foo/Foo.java" />
         <option value="$PROJECT_DIR$/lib-click/src/main/java/clink/utils/ByteUtils.java" />
         <option value="$PROJECT_DIR$/same-click/src/main/java/bean/ServerInfo.java" />
-        <option value="$PROJECT_DIR$/same-click/src/main/java/Client.java" />
         <option value="$PROJECT_DIR$/same-click/src/main/java/UDPSearcher.java" />
+        <option value="$PROJECT_DIR$/same-click/src/main/java/Client.java" />
+        <option value="$PROJECT_DIR$/same-click/src/main/java/TCPClient.java" />
       </list>
     </option>
   </component>
@@ -147,7 +157,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1624686911374" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1624687455237" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../code/ChatRoom-L6-4-5" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -197,16 +207,15 @@
       <workItem from="1623076411978" duration="2725000" />
       <workItem from="1623170182577" duration="82000" />
       <workItem from="1623669964523" duration="5920000" />
-      <workItem from="1624686329608" duration="512000" />
+      <workItem from="1624686329608" duration="1467000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17605000" />
+    <option name="totallyTimeSpent" value="18560000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3032345" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -314,8 +323,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/same-click/src/main/java/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+        <state relative-caret-position="152">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/same-click/src/main/java/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
         </state>
       </provider>
     </entry>
