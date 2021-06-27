@@ -66,7 +66,7 @@ public class UDPSearcher {
         DatagramPacket datagramPacket = new DatagramPacket(byteBuffer.array(), byteBuffer.position() + 1);
         // 广播地址
         datagramPacket.setAddress(InetAddress.getByName("255.255.255.255"));
-        // 设置服务器端口
+        // 设置服务器端口  30202
         datagramPacket.setPort(UDPConstants.PORT_SERVER);
         //发送
         datagramSocket.send(datagramPacket);
@@ -87,7 +87,7 @@ public class UDPSearcher {
         private final int minLen = UDPConstants.HEADER.length + 2 + 4;
         private final List<ServerInfo> serverInfoList = new ArrayList<>();
         private DatagramSocket ds;
-        private DatagramPacket datagramPacket;
+
 
         public Listener(int listenPort, CountDownLatch receiveLatch, CountDownLatch startLatch) {
             this.listenPort = listenPort;
@@ -100,32 +100,34 @@ public class UDPSearcher {
             super.run();
             //开始启动线程
             startLatch.countDown();
-            //接受服务端发送的地址和发送客服端的端口的消息
-            datagramPacket = new DatagramPacket(buffer, buffer.length);
-            try {
-                while (!done) {
-                    //监听端口服务端发消息主要是这个端口
-                    ds = new DatagramSocket(listenPort);
 
-                    ds.receive(datagramPacket);
+            try {
+                //监听端口服务端发消息主要是这个端口
+                ds = new DatagramSocket(listenPort);
+                // 构建接收实体
+                DatagramPacket receivePack = new DatagramPacket(buffer, buffer.length);
+
+                while (!done) {
+
+                    ds.receive(receivePack);
 
                     //获取服务端的ip
-                    String ip = datagramPacket.getAddress().getHostAddress();
-                    int port = datagramPacket.getPort();
+                    String ip = receivePack.getAddress().getHostAddress();
+                    int port = receivePack.getPort();
 
-                    int length = datagramPacket.getLength();
-                    byte[] packetData = datagramPacket.getData();
+                    int length = receivePack.getLength();
+                    byte[] packetData = receivePack.getData();
                     //验证是不是满足条件
                     boolean isValid = length > minLen && ByteUtils.startsWith(packetData,
                             UDPConstants.HEADER);
-                    if (isValid) {
+                    if (!isValid) {
                         continue;
                     }
                     //获取到服务端的ip和端口
                     System.out.println("UDPSearcher receive form ip:" + ip
                             + "\tport:" + port + "\tdataValid:" + isValid);
                     //还要验证cmd 和端口
-                    ByteBuffer byteBuffer = ByteBuffer.wrap(packetData,
+                    ByteBuffer byteBuffer = ByteBuffer.wrap(buffer,
                             UDPConstants.HEADER.length, length);
                     short cmd = byteBuffer.getShort();
                     int serverPort = byteBuffer.getInt();
@@ -133,13 +135,12 @@ public class UDPSearcher {
                         System.out.println("UDPSearcher receive cmd:" + cmd + "\tserverPort:" + serverPort);
                         continue;
                     }
-                    String sn = new String(packetData, minLen, length - minLen);
+                    String sn = new String(buffer, minLen, length - minLen);
                     ServerInfo info = new ServerInfo(serverPort, ip, sn);
                     serverInfoList.add(info);
                     receiveLatch.countDown();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             } finally {
                 close();
             }
