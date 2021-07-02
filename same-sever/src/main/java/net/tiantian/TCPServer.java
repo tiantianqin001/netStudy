@@ -57,6 +57,12 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback{
 
     }
 
+    public synchronized void broadcast(String str) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.send(str);
+        }
+    }
+
     private class ClientListener extends Thread{
         private int port;
         private final ServerSocket server;

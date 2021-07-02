@@ -70,9 +70,9 @@ public class ClientHandler {
 
                     //发送消息给客服端
                     clientHandlerCallback.onNewMessageArrived(ClientHandler.this, str);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     if (!done) {
-                        System.out.println("连接异常断开");
+                        System.out.println("连接异常断开"+e.getMessage());
                         ClientHandler.this.exitBySelf();
                     }
                 } finally {
