@@ -27,6 +27,7 @@ public class ClientHandler {
         System.out.println("新客户端连接：" + clientInfo);
     }
 
+
     public void readToPrint() {
         clientReadHandler.start();
 
@@ -94,7 +95,7 @@ public class ClientHandler {
         clientHandlerCallback.onSelfClosed(this);
     }
 
-    private void exit() {
+    public void exit() {
         clientReadHandler.exit();
         clientWriteHandler.exit();
         CloseUtils.close(socket);

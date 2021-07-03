@@ -57,6 +57,29 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback{
 
     }
 
+    public void broadcast(String str) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.send(str);
+        }
+    }
+
+    public void stop() {
+        if (mListener != null) {
+            mListener.exit();
+        }
+
+        synchronized (TCPServer.this) {
+            for (ClientHandler clientHandler : clientHandlerList) {
+                clientHandler.exit();
+            }
+
+            clientHandlerList.clear();
+        }
+
+        // 停止线程池
+        forwardingThreadPoolExecutor.shutdownNow();
+    }
+
     private class ClientListener extends Thread{
         private int port;
         private final ServerSocket server;
@@ -93,8 +116,17 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback{
 
 
             }while (!done);
+            System.out.println("服务器已关闭！");
 
+        }
 
+        void exit() {
+            done = true;
+            try {
+                server.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -22,6 +22,13 @@ public class UDPProvider {
         PROVIDER_INSTANCE = provider;
     }
 
+    public static void stop() {
+        if (PROVIDER_INSTANCE != null) {
+            PROVIDER_INSTANCE.exit();
+            PROVIDER_INSTANCE = null;
+        }
+    }
+
     private static class Provider extends Thread {
         private final byte[] sn;
         private boolean done = false;
@@ -91,6 +98,19 @@ public class UDPProvider {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        private void close() {
+            if (ds != null) {
+                ds.close();
+                ds = null;
+            }
+        }
+        /**
+         * 提供结束
+         */
+        void exit() {
+            done = true;
+            close();
         }
     }
 }
