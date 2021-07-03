@@ -6,15 +6,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Client {
-
-
-
     public static void main(String [] args){
         //搜索服务端的ip 地址 然后去链接
         ServerInfo info = UDPSearcher.searchServer(10000);
         System.out.println("获取到服务端信息"+info);
         if (info!=null){
+
           TCPClient tcpClient=null;
+
             try {
                 tcpClient = TCPClient.startWith(info);
                 if (tcpClient ==null)return;
@@ -23,6 +22,7 @@ public class Client {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("我不能发送数据了，我是客服端");
             }finally {
                 //最后要退出
                 if (tcpClient!=null){
@@ -41,7 +41,9 @@ public class Client {
         do {
             // 键盘读取一行
             String str = input.readLine();
+
             System.out.println("客服端发送消息"+str);
+
             // 发送到服务器
             tcpClient.send(str);
 

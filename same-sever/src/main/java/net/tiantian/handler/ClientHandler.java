@@ -28,6 +28,11 @@ public class ClientHandler {
     }
 
 
+    public String getClientInfo() {
+        return clientInfo;
+    }
+
+
     public void readToPrint() {
         clientReadHandler.start();
 
@@ -36,6 +41,14 @@ public class ClientHandler {
     public void send(String msg) {
         clientWriteHandler.send(msg);
     }
+
+    private void exitBySelf() {
+        exit();
+        //关闭自己
+        clientHandlerCallback.onSelfClosed(this);
+    }
+
+
 
     public interface ClientHandlerCallback {
         //客服端关闭自己
@@ -58,12 +71,15 @@ public class ClientHandler {
         @Override
         public void run() {
             super.run();
-            do {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                System.out.println("客服端读取数据 ,,,,,,,,我不会打出");
+                do {
+
                     String str = bufferedReader.readLine();
+                    System.out.println("客户端已无法读取数据！" + str);
                     if (str == null) {
-                        System.out.println("客户端已无法读取数据！");
+
                         // 退出当前客户端
                         ClientHandler.this.exitBySelf();
                         break;
@@ -71,29 +87,25 @@ public class ClientHandler {
 
                     //发送消息给客服端
                     clientHandlerCallback.onNewMessageArrived(ClientHandler.this, str);
-                } catch (IOException e) {
-                    if (!done) {
-                        System.out.println("连接异常断开");
-                        ClientHandler.this.exitBySelf();
-                    }
-                } finally {
-                    CloseUtils.close(inputStream);
-                }
-            } while (!done);
-        }
 
+                } while (!done);
+            } catch (Exception e) {
+                if (!done) {
+                    System.out.println("连接异常断开" + e.getMessage());
+                    ClientHandler.this.exitBySelf();
+                }
+            } finally {
+                CloseUtils.close(inputStream);
+            }
+        }
         void exit() {
             done = true;
             CloseUtils.close(inputStream);
 
         }
+
     }
 
-    private void exitBySelf() {
-        exit();
-        //关闭自己
-        clientHandlerCallback.onSelfClosed(this);
-    }
 
     public void exit() {
         clientReadHandler.exit();
@@ -103,21 +115,23 @@ public class ClientHandler {
                 " P:" + socket.getPort());
     }
 
+
     class ClientWriteHandler {
 
         private boolean done = false;
-        private OutputStream outputStream;
         private ExecutorService executorService;
         private final PrintStream printStream;
 
 
         public ClientWriteHandler(OutputStream outputStream) {
-            this.outputStream = outputStream;
             this.printStream = new PrintStream(outputStream);
             this.executorService = Executors.newSingleThreadExecutor();
         }
 
       public   void send(String msg) {
+          if(done){
+              return;
+          }
             executorService.execute(new WriteRunnable(msg));
         }
 
