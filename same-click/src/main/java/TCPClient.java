@@ -32,7 +32,6 @@ public class TCPClient {
 
         // 连接本地，端口2000；超时时间3000ms
         socket.connect(new InetSocketAddress(Inet4Address.getByName(info.getAddress()), info.getPort()), 3000);
-
         System.out.println("已发起服务器连接，并进入后续流程～");
         System.out.println("客户端信息：" + socket.getLocalAddress() + " P:" + socket.getLocalPort());
         System.out.println("服务器信息：" + socket.getInetAddress() + " P:" + socket.getPort());
@@ -48,8 +47,6 @@ public class TCPClient {
 
         return null;
     }
-
-
     static class ReadHandler extends Thread {
         private boolean done = false;
         private final InputStream inputStream;
@@ -64,7 +61,6 @@ public class TCPClient {
             try {
                 // 得到输入流，用于接收数据
                 BufferedReader socketInput = new BufferedReader(new InputStreamReader(inputStream));
-
                 do {
                     String str;
                     try {
@@ -72,7 +68,6 @@ public class TCPClient {
                         str = socketInput.readLine();
                         System.out.println("我是开始获取当前的值"+str);
                     } catch (SocketTimeoutException e) {
-                        System.out.println("我是要跳出循环。。。。。");
                         continue;
                     }
                     System.out.println("我没有打印。。。。。。");

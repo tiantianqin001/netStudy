@@ -27,17 +27,14 @@ public class ClientHandler {
 
     public ClientHandler(SocketChannel socketChannel, ClientHandlerCallback clientHandlerCallback) throws IOException {
         this.socketChannel = socketChannel;
-
         connector = new Connector() {
             @Override
             public void onChannelClosed(SocketChannel channel) {
                 exitBySelf();
             }
-
             @Override
             protected void onReceiveNewMessage(String str) {
                 super.onReceiveNewMessage(str);
-
                 clientHandlerCallback.onNewMessageArrived(ClientHandler.this,str);
             }
 
@@ -46,8 +43,6 @@ public class ClientHandler {
 
         Selector writeSelector= Selector.open();
         socketChannel.register(writeSelector, SelectionKey.OP_WRITE);
-
-
         this.clientHandlerCallback = clientHandlerCallback;
 
         clientWriteHandler = new ClientWriteHandler(writeSelector);

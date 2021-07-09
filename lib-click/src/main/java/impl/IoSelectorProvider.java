@@ -1,5 +1,6 @@
 package impl;
 
+import clink.utils.CloseUtils;
 import core.IoProvider;
 
 import java.io.IOException;
@@ -89,14 +90,14 @@ public class IoSelectorProvider implements IoProvider {
         Thread thread = new Thread("Clink IoSelectorProvider ReadSelector Thread") {
             @Override
             public void run() {
-                super.run();
+                //super.run();
                 //没有被关闭
                 while (!isClosed.get()) {
-
                     try {
                         if (readSelector.select() == 0) {
                             //这里是等待
-                            waitSelection(inRegOutput);
+                            //这里这个值写错了
+                            waitSelection(inRegInput);
                             continue;
                         }
 
@@ -148,7 +149,18 @@ public class IoSelectorProvider implements IoProvider {
 
     @Override
     public void close() throws IOException {
+        if (isClosed.compareAndSet(false, true)) {
+            inputHandlePool.shutdown();
+            outputHandlePool.shutdown();
 
+            inputCallbackMap.clear();
+            outputCallbackMap.clear();
+
+            readSelector.wakeup();
+            writeSelector.wakeup();
+
+            CloseUtils.close(readSelector, writeSelector);
+        }
     }
 
     private void handleSelection(SelectionKey key, int keyOps,

@@ -12,8 +12,6 @@ public class Connector implements Closeable, SocketChannelAdapter.OnChannelStatu
     private SocketChannel channel;
     private Sender sender;
     private Receiver receiver;
-
-
     public void setUp(SocketChannel socketChannel) throws IOException {
         this.channel=socketChannel;
         IoContext ioContext = IoContext.get();
@@ -43,14 +41,17 @@ public class Connector implements Closeable, SocketChannelAdapter.OnChannelStatu
 
         @Override
         public void onCompleted(IoArgs args) {
+            System.out.println("服务端开始读取客服端的数据");
             // 打印
             onReceiveNewMessage(args.bufferString());
+
             // 读取下一条数据
             readNextMessage();
         }
     };
 
     protected void onReceiveNewMessage(String str) {
+        System.out.println("获取消息。。。。。"+str);
         System.out.println(key.toString() + ":" + str);
     }
 
@@ -58,7 +59,6 @@ public class Connector implements Closeable, SocketChannelAdapter.OnChannelStatu
     public void close() throws IOException {
 
     }
-
     @Override
     public void onChannelClosed(SocketChannel channel) {
 

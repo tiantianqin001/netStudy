@@ -52,20 +52,16 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback {
         }
         return true;
     }
-
     public void stop() {
         if (mListener != null) {
             mListener.exit();
         }
-
         synchronized (TCPServer.this) {
             for (ClientHandler clientHandler : clientHandlerList) {
                 clientHandler.exit();
             }
-
             clientHandlerList.clear();
         }
-
         // 停止线程池
         forwardingThreadPoolExecutor.shutdownNow();
 
@@ -104,14 +100,10 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback {
 
     }
     private class ClientListener extends Thread {
-
         private boolean done = false;
-
-
         @Override
         public void run() {
             super.run();
-
             System.out.println("服务器准备就绪～");
             // 等待客户端连接
             do {
@@ -135,11 +127,13 @@ public class TCPServer implements ClientHandler.ClientHandlerCallback {
                         if (selectionKey.isAcceptable()) {
                             ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
                             SocketChannel socketChannel = serverSocketChannel.accept();
+                            System.out.println("有新客服端连上了");
 
                             try {
                                 // 客户端构建异步线程
                                 ClientHandler clientHandler = new ClientHandler(socketChannel,
                                         TCPServer.this);
+
                                 // 添加同步处理
                                 synchronized (TCPServer.this) {
                                     clientHandlerList.add(clientHandler);
