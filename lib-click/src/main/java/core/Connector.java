@@ -54,7 +54,6 @@ public class Connector implements Closeable, SocketChannelAdapter.OnChannelStatu
         System.out.println("获取消息。。。。。"+str);
         System.out.println(key.toString() + ":" + str);
     }
-
     @Override
     public void close() throws IOException {
 

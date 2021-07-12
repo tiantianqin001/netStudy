@@ -25,6 +25,8 @@ public class Server {
         String str;
         do {
             str = bufferedReader.readLine();
+
+
             tcpServer.broadcast(str);
         } while (!"00bye00".equalsIgnoreCase(str));
         UDPProvider.stop();

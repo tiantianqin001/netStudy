@@ -198,7 +198,7 @@ public class IoSelectorProvider implements IoProvider {
                 if (channel.isRegistered()) {
                     //说明已经注册
                     key = channel.keyFor(selector);
-                    //todo 这一有时间要了解一下
+                    //todo 这一有时间要了解一下  这里就是通过位运算 去掉已经注册的key
                     if (key != null) {
                         key.interestOps(key.readyOps() | registerOps);
                     }

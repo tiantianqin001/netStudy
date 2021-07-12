@@ -17,14 +17,11 @@ import java.util.concurrent.Executors;
 public class ClientHandler {
 
     private SocketChannel socketChannel;
-
     private final Connector connector;
     private ClientHandlerCallback clientHandlerCallback;
     private final String clientInfo;
 
     private final ClientWriteHandler clientWriteHandler;
-
-
     public ClientHandler(SocketChannel socketChannel, ClientHandlerCallback clientHandlerCallback) throws IOException {
         this.socketChannel = socketChannel;
         connector = new Connector() {
@@ -55,10 +52,8 @@ public class ClientHandler {
         return clientInfo;
     }
 
-
-
-
     public void send(String msg) {
+
         clientWriteHandler.send(msg);
     }
 
@@ -83,8 +78,6 @@ public class ClientHandler {
         CloseUtils.close(socketChannel);
         System.out.println("客户端已退出：" + clientInfo);
     }
-
-
     class ClientWriteHandler {
 
         private boolean done = false;
@@ -99,6 +92,7 @@ public class ClientHandler {
         }
 
         public void send(String msg) {
+
             if (done) {
                 return;
             }
@@ -115,7 +109,9 @@ public class ClientHandler {
             private String msg;
 
             public WriteRunnable(String msg) {
-                this.msg = msg;
+                this.msg = msg+'\n';
+
+                System.out.println("服务端发送消息....11111111111......."+msg);
             }
 
             @Override
@@ -130,6 +126,7 @@ public class ClientHandler {
                 while (!done && byteBuffer.hasRemaining()){
                     try {
                         int len = socketChannel.write(byteBuffer);
+                        System.out.println("服务端发送消息....3333333333......."+len);
                         // len = 0 合法
                         if (len < 0) {
                             System.out.println("客户端已无法发送数据！");
